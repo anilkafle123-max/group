@@ -33,3 +33,85 @@ void showRecords() {
     cout << "\n";
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int partition(int lo, int hi) {
+    int piv = data[hi].number;
+    int b   = lo - 1;
+    for (int j = lo; j < hi; j++) {
+        if (data[j].number < piv) {
+            b++;
+            Record tmp = data[b];
+            data[b]    = data[j];
+            data[j]    = tmp;
+        }
+    }
+    Record tmp  = data[b + 1];
+    data[b + 1] = data[hi];
+    data[hi]    = tmp;
+    return b + 1;
+}
+
+void quickSort(int lo, int hi) {
+    if (lo < hi) {
+        int p = partition(lo, hi);
+        quickSort(lo, p - 1);
+        quickSort(p + 1, hi);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
