@@ -33,7 +33,18 @@ void showRecords() {
     cout << "\n";
 }
 
-
+void selectionSort(){
+    for(int i = 0;i<N-1;i++){
+    int inldx = i;
+    for(int j = i + 1; j <N;j++)
+        if(data[j].number<
+data[minldx].number)
+            minldx = j;
+Record tmp = data[i];
+data[i] = data[minldx];
+data[minldx] = tmp;
+    }
+}
 
 
 
