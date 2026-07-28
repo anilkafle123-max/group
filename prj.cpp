@@ -273,6 +273,55 @@ int main() {
     delete[] data;
     return 0;
 }
+#include <iostream>
+using namespace std;
+
+int interpolationSearch(int arr[], int size, int key)
+{
+    int low = 0;
+    int high = size - 1;
+
+    while (low <= high && key >= arr[low] && key <= arr[high])
+    {
+        if (arr[low] == arr[high])
+        {
+            if (arr[low] == key)
+                return low;
+            else
+                return -1;
+        }
+
+        int pos = low + ((key - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+
+        if (arr[pos] == key)
+            return pos;
+        else if (arr[pos] < key)
+            low = pos + 1;
+        else
+            high = pos - 1;
+    }
+
+    return -1;
+}
+
+int main()
+{
+    int arr[] = {10, 20, 30, 40, 50, 60, 70, 80, 90};
+    int size = 9;
+    int key;
+
+    cout << "Enter the number to search: ";
+    cin >> key;
+
+    int result = interpolationSearch(arr, size, key);
+
+    if (result != -1)
+        cout << "Number found at index " << result << endl;
+    else
+        cout << "Number not found." << endl;
+
+    return 0;
+}
 
 
 
