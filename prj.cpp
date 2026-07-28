@@ -127,7 +127,21 @@ int binarySearch(int target) {
     }
     return -1;
 }
-
+int interpolationSearch(int target) {
+    int lo = 0, hi = N - 1;
+    while (lo <= hi &&
+           target >= data[lo].number &&
+           target <= data[hi].number) {
+        if (data[lo].number == data[hi].number)
+            return (data[lo].number == target) ? lo : -1;
+        int pos = lo + ((long long)(target - data[lo].number) * (hi - lo))
+                      / (data[hi].number - data[lo].number);
+        if      (data[pos].number == target) return pos;
+        else if (data[pos].number <  target) lo = pos + 1;
+        else                                  hi = pos - 1;
+    }
+    return -1;
+}
 
 
 int safeInput() {
@@ -273,6 +287,7 @@ int main() {
     delete[] data;
     return 0;
 }
+
 
 
 
