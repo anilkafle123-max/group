@@ -22,6 +22,7 @@ void loadData(int n) {
     }
 }
 
+
 void showRecords() {
     cout << "\n  Total records: " << N << "\n\n";
     for (int i = 0; i < N; i++) {
@@ -33,9 +34,10 @@ void showRecords() {
     cout << "\n";
 }
 
+
 void selectionSort(){
     for(int i = 0;i<N-1;i++){
-    int inldx = i;
+    int minldx = i;
     for(int j = i + 1; j <N;j++)
         if(data[j].number<
 data[minldx].number)
@@ -45,21 +47,6 @@ data[i] = data[minldx];
 data[minldx] = tmp;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 int partition(int lo, int hi) {
@@ -94,29 +81,6 @@ void quickSort(int lo, int hi) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int binarySearch(int target) {
     int lo = 0, hi = N - 1;
     while (lo <= hi) {
@@ -127,6 +91,8 @@ int binarySearch(int target) {
     }
     return -1;
 }
+
+
 int interpolationSearch(int target) {
     int lo = 0, hi = N - 1;
     while (lo <= hi &&
@@ -154,6 +120,7 @@ int safeInput() {
     cin.ignore(10000, '\n');
     return val;
 }
+
 
 int pickSize() {
     cout << "\n  Choose dataset size:\n";
@@ -217,6 +184,7 @@ void optionSort() {
     if (show == 1) showRecords();
 }
 
+
 void optionSearch() {
     if (!data) {
         cout << "\n  !! No data loaded. Use Option 1 or Option 5 first !!\n";
@@ -260,6 +228,7 @@ void optionNewRandom() {
     cout << "\n  New random dataset of " << n << " records generated!\n";
     cout << "  (Sorted status reset - please sort again before searching)\n";
 }
+
 
 int main() {
     srand((unsigned)time(0));
