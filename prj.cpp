@@ -37,14 +37,14 @@ void showRecords() {
 
 void selectionSort(){
     for(int i = 0;i<N-1;i++){
-    int minldx = i;
+    int minIdx = i;
     for(int j = i + 1; j <N;j++)
         if(data[j].number<
-data[minldx].number)
-            minldx = j;
+data[minIdx].number)
+            minIdx = j;
 Record tmp = data[i];
-data[i] = data[minldx];
-data[minldx] = tmp;
+data[i] = data[minIdx];
+data[minIdx] = tmp;
     }
 }
 
@@ -172,6 +172,7 @@ void optionDisplay() {
          << " ms\n";
 }
 
+
 void optionSort() {
     if (!data) {
         cout << "\n  No data loaded. Use Option 1 or Option 5 first.\n";
@@ -188,17 +189,32 @@ void optionSort() {
     string names[] = {"Selection Sort", "Quick Sort", "Merge Sort"};
     cout << "\n  Sorting " << N << " records using " << names[c-1] << " ...\n";
 
+    Record* backup = new Record[N];
+    for (int i = 0; i < N; i++) backup[i] = data[i];
+
+    int RUNS;
+    if      (N <= 100)  RUNS = 1000;
+    else if (N <= 500)  RUNS = 500;
+    else if (N <= 1000) RUNS = 200;
+    else if (N <= 5000) RUNS = 50;
+    else                RUNS = 5;
+
     auto t1 = high_resolution_clock::now();
-    if      (c == 1) selectionSort();
-    else if (c == 2) quickSort(0, N - 1);
-    else             mergeSort(0, N - 1);
+    for (int r = 0; r < RUNS; r++) {
+        for (int i = 0; i < N; i++) data[i] = backup[i];
+        if      (c == 1) selectionSort();
+        else if (c == 2) quickSort(0, N - 1);
+        else             mergeSort(0, N - 1);
+    }
     auto t2 = high_resolution_clock::now();
 
+    double avgMs = duration<double, milli>(t2 - t1).count() / RUNS;
+    delete[] backup;
     isSorted = true;
+
     cout << "  Done!  Time: "
-         << fixed << setprecision(4)
-         << duration<double, milli>(t2 - t1).count()
-         << " ms\n";
+         << fixed << setprecision(6)
+         << avgMs << " ms\n";
 
     cout << "\n  Show sorted records? (1 = Yes  /  2 = No): ";
     int show = safeInput();
@@ -226,9 +242,15 @@ void optionSearch() {
     cout << "  Enter number to search: ";
     int target = safeInput();
 
-    auto t1  = high_resolution_clock::now();
-    int  idx = (c == 1) ? binarySearch(target) : interpolationSearch(target);
-    auto t2  = high_resolution_clock::now();
+    const int RUNS = 10000;
+    int idx = -1;
+
+    auto t1 = high_resolution_clock::now();
+    for (int r = 0; r < RUNS; r++)
+        idx = (c == 1) ? binarySearch(target) : interpolationSearch(target);
+    auto t2 = high_resolution_clock::now();
+
+    double avgMs = duration<double, milli>(t2 - t1).count() / RUNS;
 
     if (idx != -1)
         cout << "\n  Found!  " << target
@@ -239,9 +261,9 @@ void optionSearch() {
 
     cout << "  Search time: "
          << fixed << setprecision(6)
-         << duration<double, milli>(t2 - t1).count()
-         << " ms\n";
+         << avgMs << " ms\n";
 }
+
 
 void optionNewRandom() {
     int n = pickSize();
