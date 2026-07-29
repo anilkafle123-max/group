@@ -75,9 +75,30 @@ void quickSort(int lo, int hi) {
 }
 
 
+void merge(int l, int m, int r) {
+    int ls = m - l + 1;
+    int rs = r - m;
+    Record* L = new Record[ls];
+    Record* R = new Record[rs];
+    for (int i = 0; i < ls; i++) L[i] = data[l + i];
+    for (int j = 0; j < rs; j++) R[j] = data[m + 1 + j];
+    int i = 0, j = 0, k = l;
+    while (i < ls && j < rs)
+        data[k++] = (L[i].number <= R[j].number) ? L[i++] : R[j++];
+    while (i < ls) data[k++] = L[i++];
+    while (j < rs) data[k++] = R[j++];
+    delete[] L;
+    delete[] R;
+}
 
-
-
+void mergeSort(int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+        mergeSort(l, m);
+        mergeSort(m + 1, r);
+        merge(l, m, r);
+    }
+}
 
 
 
@@ -256,42 +277,3 @@ int main() {
     delete[] data;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
