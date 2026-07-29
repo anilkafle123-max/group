@@ -172,7 +172,6 @@ void optionDisplay() {
          << " ms\n";
 }
 
-
 void optionSort() {
     if (!data) {
         cout << "\n  No data loaded. Use Option 1 or Option 5 first.\n";
@@ -244,10 +243,13 @@ void optionSearch() {
 
     const int RUNS = 10000;
     int idx = -1;
+    volatile int dummy = 0;  
 
     auto t1 = high_resolution_clock::now();
-    for (int r = 0; r < RUNS; r++)
+    for (int r = 0; r < RUNS; r++) {
         idx = (c == 1) ? binarySearch(target) : interpolationSearch(target);
+        dummy += idx;  
+    }
     auto t2 = high_resolution_clock::now();
 
     double avgMs = duration<double, milli>(t2 - t1).count() / RUNS;
@@ -263,6 +265,7 @@ void optionSearch() {
          << fixed << setprecision(6)
          << avgMs << " ms\n";
 }
+
 
 
 void optionNewRandom() {
